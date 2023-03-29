@@ -7,7 +7,7 @@ if (!isset($_SESSION['usuari'])) {
   // Claus del client i ruta de redireccionament autoritzada
   $clientID = '460822153535-j7c9h85prrbdqbdb7oeh2h3uat230mge.apps.googleusercontent.com';
   $clientSecret = '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';
-  $redirectUri = 'http://localhost/Client/P4.4%20-%20Fotos%20alumnes%20SaPa/P4.4-Fotos-alumnes-SaPa/controlador/login.php';
+  $redirectUri = 'http://localhost/Client/P4.4%20-%20Fotos%20alumnes%20SaPa/controlador/login.php';
     
   // Crear una sol·licitud de client per accedir a l'API de Google
   $client = new Google_Client();
@@ -16,7 +16,7 @@ if (!isset($_SESSION['usuari'])) {
   $client->setRedirectUri($redirectUri);
   $client->addScope("email");
   $client->addScope("profile");
-
+  echo $_GET['code'];
   // Autenticar el codi de Google OAuth Flow
   if (isset($_GET['code'])) {
     $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
@@ -31,7 +31,7 @@ if (!isset($_SESSION['usuari'])) {
     // Si no està registrat, fa el registre introduint les dades a la base de dades.
     try {
       if(!esProfe($email)) {
-        echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>ERROR: no s'ha pogut iniciar sessio.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        throw new Exception("Nomes es poden loguejar els professors");
       }
       if (comprovarCorreuRegistrat($email)) {
         $_SESSION['usuari'] = $name;
@@ -42,16 +42,15 @@ if (!isset($_SESSION['usuari'])) {
         header("Location: ../vista/taula.html");
       }
     } catch(Exception $e){
-      echo $e;
       echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>ERROR: no s'ha pogut iniciar sessio.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     }
   } else {
-    // Si no s'ha autenticat, redirigeix a la pàgina de login
     header('Location: ' . $client->createAuthUrl());
+    // Si no s'ha autenticat, redirigeix a la pàgina de login
+    // header('Location: ../vista/index.html');
   }
   // require_once "../vista/index.html";
 } else {
-  echo "Ja has iniciat sessió.";
   header("Location: ../vista/taula.html");
 }
 
@@ -87,10 +86,8 @@ function comprovarCorreuRegistrat($email) {
 
 
 function esProfe($email) {
-  // $pattern = "/^.[\.].@sapalomera.cat$/";
-  $pattern = "/^.@sapalomera.cat$/";
+  $pattern = "/^.[\.].@sapalomera.cat$/";
   if(preg_match($pattern, $email)){
-    echo "hola";
     return true;
   } else {
     return false;
