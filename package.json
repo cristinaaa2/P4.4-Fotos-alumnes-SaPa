@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@google-cloud/local-auth": "^2.1.0",
+    "bootstrap": "^5.3.0-alpha2",
+    "fs": "^0.0.1-security",
+    "googleapis": "^105.0.0"
+  }
+}
