@@ -52,76 +52,13 @@ h1 {
 	font-weight: black;
 }
 
-.contenidor .articles {
-	margin-bottom: 20px;
-}
-
-.contenidor .articles ul {
-	list-style: none;
-}
-
-.contenidor .articles ul li {
-	padding: 30px 10px;
-	border-bottom: 1px solid #c8c8c8;
-}
-
-.paginacio ul {
-	list-style: none;
-}
-
-.paginacio ul li {
-	display: inline-block;
-	margin-right: 10px; 
-}
-
-.paginacio ul .active a {
-	background: #2580b4;
-}
-
-.paginacio ul .disabled {
-	display: inline-block;
-	padding: 2px 2px;
-	cursor:not-allowed;
-	color:#fff;
-	text-decoration: none;
-}
-
-.paginacio ul li a {
-	display: inline-block;
-	padding: 10px 20px;
-	background: #424242;;
-	color:#fff;
-	text-decoration: none;
-}
-
-.icon {	
-	margin-right: 10px;
-	padding-bottom: 10px;
-}
-
-.icon2 {	
-	float: right;
-	margin-right: 10px;
-	padding-bottom: 10px;
-}
-
-.botoAfegir {
-	display: flex;
- 	align-items: center;
- 	justify-content: center;
-}
-
-.botoAfegir > a {
-	text-align: center;
-}
-
-.afegir {
-	float: right;
-	margin: 0;
-}
-
-.img {
-	margin: 0px 0px 20px 20px;
+video {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
 }
 
 .icona {
@@ -133,25 +70,4 @@ label {
 	margin-bottom: 5px;
 	font-weight: bold;
 	font-size: 18px;
-}
-
-.printable {visibility:hidden; display:none;}
-.nonprintable {visibility:visible;}
-
-@media print{
-	@page { size:6.2in 7.1in; margin: 0.3cm; }
-	* { font-size:15px; }
-	.printable {visibility:visible; display:block;}
-	.nonprintable {visibility:hidden; display:none;}
-	.especial {
-		display: block;
-		position: fixed;
-		font-weight: bold;
-		border: .5rem solid black;
-		padding: 1rem;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%) rotate(-65deg) scale(1.6, 1.3);
-		opacity: .1;
-	}
 }
