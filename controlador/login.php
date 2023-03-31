@@ -31,15 +31,17 @@ if (!isset($_SESSION['usuari'])) {
     // Si no està registrat, fa el registre introduint les dades a la base de dades.
     try {
       if(!esProfe($email)) {
-        echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>ERROR: no s'ha pogut iniciar sessio.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
-      }
-      if (comprovarCorreuRegistrat($email)) {
-        $_SESSION['usuari'] = $name;
-        header("Location: ../vista/taula.html");
+        echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>No pots iniciar sessió amb aquest compte de correu.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        
       } else {
-        registrarProfe($name, $email);
-        $_SESSION['usuari'] = $name;
-        header("Location: ../vista/taula.html");
+        if (comprovarCorreuRegistrat($email)) {
+          $_SESSION['usuari'] = $name;
+          header("Location: ../vista/taula.html");
+        } else {
+          registrarProfe($name, $email);
+          $_SESSION['usuari'] = $name;
+          header("Location: ../vista/taula.html");
+        }
       }
     } catch(Exception $e){
       echo $e;
@@ -87,8 +89,8 @@ function comprovarCorreuRegistrat($email) {
 
 
 function esProfe($email) {
-  // $pattern = "/^.[\.].@sapalomera.cat$/";
-  $pattern = "/^.@sapalomera.cat$/";
+  $pattern = "/^.[\.].@sapalomera.cat$/";
+  // $pattern = "/^.@sapalomera.cat$/";
   if(preg_match($pattern, $email)){
     echo "hola";
     return true;

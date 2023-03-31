@@ -1,86 +1,39 @@
-const fs = require('fs').promises;
-const path = require('path');
-const process = require('process');
-const {authenticate} = require('@google-cloud/local-auth');
-const {google} = require('googleapis');
+<?php
+// Llibreria de client de l'API de Google
+require_once '../google-api-php-client--PHP8.0/vendor/autoload.php';
+putenv('GOOGLE_APPLICATION_CREDENTIALS=clave_drive.json');
 
-const SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
-const TOKEN_PATH = path.join(process.cwd(), 'token.json');
-const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.js');
-let drive;
-let client;
+$client = new Google_Client();
+$client->useApplicationDefaultCredentials();
+$client->setScopes(['https://www.googleapis.com/auth/drive.file']);
 
-async function loadSavedCredentialsIfExist() {
-  try {
-    const content = await fs.readFile(TOKEN_PATH);
-    const credentials = JSON.parse(content);
-    return google.auth.fromJSON(credentials);
-  } catch (err) {
-    return null;
-  }
+
+try {
+  $service = new Google\Service\Drive($client);
+  $file_path = "../model/profes.json";
+
+  $file = new Google\Service\Drive\DriveFile();
+  $file->setName($file_path);
+
+  $file->setParents(array("1cEVsO_nPDjo-H-HM3em_yxBPRFbCQNfg"));
+  $file->setDescription("Profes");
+  $file->setMimeType("application/json");
+
+  $result = $service->files->create(
+    $file,
+    array(
+      'data' => file_get_contents($file_path),
+      'mimeType' => 'application/json',
+      'uploadType' => 'multipart'
+    )
+  );
+
+  echo '<a href="https://drive.google.com/open?id=' . $result->id . '/view">View File</a>';
+
+} catch (Google_Service_Exception $e) {
+  echo $e;
+} catch (Exception $e) {
+  echo $e;
 }
 
-async function saveCredentials(client) {
-  const content = await fs.readFile(CREDENTIALS_PATH);
-  const keys = JSON.parse(content);
-  const key = keys.installed || keys.web;
-  const payload = JSON.stringify({
-    type: 'authorized_user',
-    client_id: key.client_id,
-    client_secret: key.client_secret,
-    refresh_token: client.credentials.refresh_token,
-  });
-  await fs.writeFile(TOKEN_PATH, payload);
-}
-
-async function authorize() {
-  client = await loadSavedCredentialsIfExist();
-  if (client) {
-    drive = google.drive({version: 'v3', auth: client});
-    return client;
-  }
-  client = await authenticate({
-    scopes: SCOPES,
-    keyfilePath: CREDENTIALS_PATH,
-  });
-  if (client.credentials) {
-    await saveCredentials(client);
-  }
-  drive = google.drive({version: 'v3', auth: client});
-  return client;
-}
-
-async function listFiles() {
-  const res = await drive.files.list({
-    pageSize: 10,
-    fields: 'nextPageToken, files(id, name)',
-  });
-  const files = res.data.files;
-  if (files.length === 0) {
-    console.log('No files found.');
-    return;
-  }
-
-  console.log('Files:');
-  files.map((file) => {
-    console.log(`${file.name} (${file.id})`);
-  });
-}
-
-async function guardarArxiu(rutaLocal, tipusMIME, idCarpetaDrive, nomArxiuDrive) {
-    console.log(drive);
-    await drive.files.create({
-        requestBody: {
-            name: nomArxiuDrive,
-            mimeType: tipusMIME,
-            parents: [idCarpetaDrive]
-        },
-        media: {
-            mimeType: tipusMIME,
-            body: rutaLocal
-        },
-        fields: 'id, name'
-    });
-}
-
-authorize().then(listFiles).catch(console.error);
+?>
