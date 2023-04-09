@@ -12,6 +12,10 @@ body {
 	font-family: 'Open Sans', sans-serif;
 }
 
+nav {
+	background-color: #1b4a81;
+}
+
 .tot {
     align-items: center;
     min-height: 100vh;
@@ -19,10 +23,6 @@ body {
     align-content: center;
     align-self: center;
     background-color: #c5e9e9;
-}
-
-.navbar {
-    background-color: rgb(161, 223, 230);
 }
 
 .arrodonir {
@@ -54,11 +54,21 @@ h1 {
 
 video {
 	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	z-index: -1;
+	/* width: 500px;
+	height: 700px; */
+}
+
+canvas {
+	width: 500px;
+	height: 700px;
+	border: white dashed 5px;
+}
+
+.foto {
+	position: absolute;
+	top: 80%;
+	left: 50%;
+	z-index: 1;
 }
 
 .icona {
