@@ -32,7 +32,6 @@ if (!isset($_SESSION['usuari'])) {
     try {
       if(!esProfe($email)) {
         echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>No pots iniciar sessió amb aquest compte de correu.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
-        
       } else {
         if (comprovarCorreuRegistrat($email)) {
           $_SESSION['usuari'] = $name;
@@ -89,8 +88,8 @@ function comprovarCorreuRegistrat($email) {
 
 
 function esProfe($email) {
-  $pattern = "/^.[\.].@sapalomera.cat$/";
-  // $pattern = "/^.@sapalomera.cat$/";
+  // $pattern = "/^.[\.].@sapalomera.cat$/";
+  $pattern = "/.@sapalomera.cat$/";
   if(preg_match($pattern, $email)){
     echo "hola";
     return true;
