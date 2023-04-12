@@ -37,9 +37,9 @@ if (isset($_POST['submit-tsv'])) {
         file_put_contents($arxiu, $json_string);
 
         var_dump($arrayProcessat);
-        //header("Location: ../vista/admin/");
+        header("Location: ../admin/");
     } else {
-        header("Location: ../vista/admin/");
+        header("Location: ../admin/");
     }
 }
 
@@ -54,7 +54,9 @@ function estilitzarArray($data) {
         $arrayProcessat[$i]["cicle"] = $data[$i][2];
         $arrayProcessat[$i]["curs"] = preg_split("/\s/", $data[$i][3])[0];
         $arrayProcessat[$i]["grup"] = isset($data[$i][4]) ? preg_split("/\s/", $data[$i][4])[0] : "";
-        $arrayProcessat[$i]["foto"] = "NO";
+        if(preg_match("/^\w\./", $data[$i][0])) {
+            $arrayProcessat[$i]["foto"] = "NO";
+        }
     }
 
     return $arrayProcessat;
