@@ -1,24 +1,32 @@
 
 <?php
 if(isset($_GET["tutor"])) {
-    $tutor = $_GET["tutor"];
-    $file = "../model/classes.json";
-    if(file_exists($file)) {
-        $json = file_get_contents($file);
-    } else {
-        $json = [];
+    try {
+        $tutor = $_GET["tutor"];
+        $file = "../model/classes.json";
+        if(file_exists($file)) {
+            $json = file_get_contents($file);
+        } else {
+            $json = "{\"error\": \"No hi ha dades\"}";
+        }
+        echo $json;
+    } catch(Exception $e) {
+        echo "ERROR: Al obtenir les dades del tutor.";
     }
-    echo $json;
 }
 
 if(isset($_GET["alumnes"])) {
-    $alumne = $_GET["alumnes"];
-    $file = "../model/classes.json";
-    if(file_exists($file)) {
-        $json = file_get_contents($file);
-    } else {
-        $json = [];
+    try {
+        $alumne = $_GET["alumnes"];
+        $file = "../model/classes.json";
+        if(file_exists($file)) {
+            $json = file_get_contents($file);
+        } else {
+            $json = "{\"error\": \"No hi ha dades\"}";
+        }
+        echo $json;
+    } catch(Exception $e) {
+        echo "ERROR: Al obtenir les dades dels alumnes.";
     }
-    echo $json;
 }
 ?>

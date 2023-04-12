@@ -13,6 +13,12 @@
     <title>Document</title>
 </head>
 <body>
+    <?php
+        session_start();
+        if (!isset($_SESSION['usuari'])) {
+            header("Location: ../index.php");
+        }
+    ?>
     <nav class="navbar navbar-expand-lg nonprintable">
         <a class="navbar-brand" href="https://www.sapalomera.cat/">
             <img src="sources/img/logo-sapa.png" width="150px">
@@ -29,21 +35,36 @@
             </div>
         </div>
     </nav>
-    <div class="dades">
+    <a class="btn btn-light mx-5 mt-4" href="javascript:history.back()">Tornar</a>
+    <ul class="nav nav-tabs m-5" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="taula-tab" data-bs-toggle="tab" data-bs-target="#taula-tab-pane" type="button" role="tab" aria-controls="taula-tab-pane" aria-selected="true"><i class="bi bi-table"></i></button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="cards-tab" data-bs-toggle="tab" data-bs-target="#cards-tab-pane" type="button" role="tab" aria-controls="cards-tab-pane" aria-selected="false"><i class="bi bi-person-vcard"></i></button>
+        </li>
+    </ul>
+    <div class="tab-content m-5" id="myTabContent">
+        <div class="tab-pane fade show active" id="taula-tab-pane" role="tabpanel" aria-labelledby="taula-tab" tabindex="0">
+            <div class="m-5 col-10">
+                <table class="table table-info">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Id</th>
+                            <th>Nom</th>
+                            <th>Foto</th>
+                        </tr>
+                    </thead>
+                    <tbody id="alumnes">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="cards-tab-pane" role="tabpanel" aria-labelledby="cards-tab" tabindex="0">
+            <div class="row row-cols-1 row-cols-md-5 g-4" id="img">
 
-    </div>
-    <div class="m-5 col-6">
-        <table class="table table-info">
-            <thead class="table-dark">
-                <tr>
-                    <th>Id</th>
-                    <th>Nom</th>
-                    <th>Foto</th>
-                </tr>
-            </thead>
-            <tbody id="alumnes">
-            </tbody>
-        </table>
-    </div>
+            </div>
+        </div>
+    </div>   
 </body>
 </html>
