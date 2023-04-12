@@ -52,15 +52,7 @@ h1 {
 	font-weight: black;
 }
 
-video {
-	position: absolute;
-	/* width: 500px;
-	height: 700px; */
-}
-
 canvas {
-	width: 500px;
-	height: 700px;
 	border: white dashed 5px;
 }
 
@@ -69,6 +61,15 @@ canvas {
 	top: 80%;
 	left: 50%;
 	z-index: 1;
+}
+
+.file {
+	position: absolute;
+	top: 100%;
+	z-index: 1;
+	padding: 10px;
+	background-color: #e9cbc5;
+	border-radius: 10px;
 }
 
 .icona {

@@ -13,6 +13,12 @@
     <title>Tutors</title>
 </head>
 <body>
+    <?php
+        session_start();
+        if (!isset($_SESSION['usuari'])) {
+            header("Location: ../index.php");
+        }
+    ?>
     <nav class="navbar navbar-expand-lg">
         <a class="navbar-brand" href="https://www.sapalomera.cat/">
             <img src="sources/img/logo-sapa.png" width="150px">
@@ -35,7 +41,7 @@
                 <tr>
                     <th>Tutor</th>
                     <th>Curs</th>
-                    <th>Num Alumnes</th>
+                    <th>Num Alumnes</th> 
                 </tr>
             </thead>
             <tbody id="tutors">
