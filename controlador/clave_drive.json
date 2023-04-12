@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "articles-366108",
+    "private_key_id": "be972fbe3f502dc89a338c95868bce6f83824169",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDW+lW5M5YR7O7q\ntYrqyooIXKDT3xD/7Py5Cc5hYClJvp7QJtPMSkxAvxhjDnwsPC4PINsyCVgVmj2T\nhoIfpCgYeO6ZCzy0IHzUr2s4/nmM9exiX4m/SsV+o8Z/0X6kvDmtvH0206z4WmZn\n1IKdovEY6yy+tKqWKL3EX135FcEY4FKUbqMYCv0BFcErB5yRe7rIJxxFxkt9oB5s\ng9PAIO8WUsr+ohu6L0IaDoK34xBwcvmtkWuH0JWB/TnaXYvoyZJmd9Ti3fWFPY9d\nM30dUDpFDXdlaHZsdVxxqDOPP0g5NgMg3Ci8QNHvbDu34X3A/fqM1FfILASRN7ne\nKHEM2wYhAgMBAAECggEAIjsnVj+oGD+dhYMV1TAeDZnORB5jYxUV4tL0aV36BROU\nzzk3hXKZNMAY/oDqddK5VNBbBtslCv+N6YVECAzIE6mB+J2o81eu+ODb1m3y5eas\n1rc2xF6AFxu1+lld7JZKKud2GrpW8w7V+peEmtw8vsaHz/ANr65aFUBIQubbYf3f\nc2v7N4BiPkRQ4XzqhyhD2YE6o7l+gSsJ2e4sthGiQC4quGQSqHcg6N2GsQIcSZdw\nDaxOy/226Q+Sxp5XhHZkA2RjYKPEbndktUbtgThXVyR+7GJUgaAx4V3z4C4gBmrl\nl1GWuKExjb/FDLkTGDJwcb9WcThH56ykoVviBLoRhwKBgQD0HX0ce0lWHpg0S5hO\nu9JABSO4t55WwzAgS04Z7B43gxemf2nYfhRoTSBcSdt6GPOTF4L4NZ9BE6QnOujw\nxqFdluB/VsfakLiYBJ5vp7fCPQ0K8uWAUbdQ291cFDlAplPxC1Lzy4wx0SHtuCeo\n9bATOyyKYXkAeX+h1NcyI972cwKBgQDhcbICjxPdG7WD/0UC1u40bER0nkIAwc7k\nlK4ARu7Ti7bPHPadYBkZjvPgehqkH6VV2lTYQu8JE0lwFXAD5o9Gz2jaM49zB8Gq\nXI2TZgWSZzaGzBhM6SiySdWOXFjB7WgiyO51zxAAWFlGH9v714Uuo+DukQkR57J+\nQnzwioLYGwKBgQCkbfiH5sNPLux2zTSaVAka9ltJYOVWq8MO/apt642u9q5HiCtT\nmBlG6CyT/WvIomXu/jdJ2VScEQ7RHe0pwaGP2MD/BQU5Q6ITQ4k0zFQKkfTnGxVb\nia9g17gS/cxSr7Z69pW5gbG9HJEt/o04UcV4LrOhwmYu26gM6cDKFT9p4QKBgQDX\n0bL69iOq8ULUiUR0knNZZigmh/ZhqSe59YeZpk4t4DtyjKSeRgfhStO3Gs10PwNV\na/z7RyB0TK1qCmvAoDCbNiWHdgKmuU8yGwZBjFJbNEmjw7CjuDWIcFxru4YQqIif\nfEGkMER+QBW+pvM+ZbUO0D2dxOSs6mUar+XRlJfr7wKBgCLGsUjlhlHJVWcDp+lt\nu4Gi9Odu4qkGuRd4gvT2uoxZVir5IBsxcb4u2TewWFE0pZIvoDO7N4dd7XW5qg1R\nlTFh+wLCEajr6oQ2e5N6C8QLM6V5ckzWgpJ7NNycMoQvtzbzNiLEQvRd1kME1pYx\nJAEQN4ULgFSX9i1SvOU+mFTQ\n-----END PRIVATE KEY-----\n",
+    "client_email": "sapafoto@articles-366108.iam.gserviceaccount.com",
+    "client_id": "117852686442583975759",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/sapafoto%40articles-366108.iam.gserviceaccount.com"
+  }
+  

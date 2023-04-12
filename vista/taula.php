@@ -9,10 +9,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="sources/estils.css">
-    <title>Fotos</title>
+    <script type="module" src="../controlador/aplicacio.js"></script>
+    <title>Tutors</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg nonprintable" style="background-color: #de8989;">
+    <?php
+        session_start();
+        if (!isset($_SESSION['usuari'])) {
+            header("Location: ../index.php");
+        }
+    ?>
+    <nav class="navbar navbar-expand-lg">
         <a class="navbar-brand" href="https://www.sapalomera.cat/">
             <img src="sources/img/logo-sapa.png" width="150px">
         </a>
@@ -21,10 +28,6 @@
         </button>
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link text-light" href="/usuaris">Usuaris</a>
-                    <a class="nav-link text-light" href="/informes">Informes</a>
-                </div>
                 <div class="navbar-nav ms-auto">
                     <a class="nav-link text-light" href="/admin-tallers"><strong></strong></a>
                     <a class="nav-link text-light btn btn-danger mx-2" href="../controlador/logout.php"><i class="bi bi-box-arrow-right"></i></a>
@@ -32,5 +35,18 @@
             </div>
         </div>
     </nav>
+    <div class="m-5 col-6">
+        <table class="table table-info">
+            <thead class="table-dark">
+                <tr>
+                    <th>Tutor</th>
+                    <th>Curs</th>
+                    <th>Num Alumnes</th> 
+                </tr>
+            </thead>
+            <tbody id="tutors">
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

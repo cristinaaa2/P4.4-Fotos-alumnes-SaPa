@@ -6,5 +6,5 @@ session_destroy();
 
 $_SESSION = array();
 
-header("Location: ../vista/index.html");
+header("Location: ../index.php");
 ?>
