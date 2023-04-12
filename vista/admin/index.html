@@ -30,7 +30,7 @@
     </nav>
     <div class="content">
         <div class="m-5 col-3 bg-primary-subtle rounded">
-            <div class="m-2">
+            <div class="p-2">
                 <div class="m-3">
                     <label for="IDcarpeta" class="form-label">ID de la carpeta:</label>
                     <input type="text" class="form-control" id="IDcarpeta">
@@ -39,10 +39,15 @@
                     <button id="Scarpeta" onclick="guardarIDCarpedaDrive()" class="btn btn-success mb-2">Seleccionar Carpeta</button>
                     <button id="Ecarpeta" class="btn btn-danger mb-2">Eliminar Contingut Carpeta</button>
                 </div>
-                <div class="m-3">
-                    <label for="file" class="form-label">Fitxer .tsv:</label>
-                    <input type="file" class="form-control" id="file">
-                </div>
+                <form action="../../controlador/llegir_tsv.php" method="POST" enctype="multipart/form-data">
+                    <div class="m-3">
+                        <label for="formFile" class="form-label">Fitxer .tsv:</label>
+                        <input type="file" class="form-control" id="formFile" name="arxiu">
+                    </div>
+                    <div class="m-3">
+                        <input type="submit" class="btn btn-primary" value="Confirmar" name="submit-tsv">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
