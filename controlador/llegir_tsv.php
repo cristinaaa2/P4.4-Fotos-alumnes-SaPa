@@ -48,19 +48,21 @@ if (isset($_POST['submit-tsv'])) {
 
 function estilitzarArray($data) {
     $arrayProcessat = array();
-
-    for ($i = 0; $i < count($data); $i++) {
-
-        $arrayProcessat[$i]["id"] = $data[$i][0];
-        $arrayProcessat[$i]["nom"] = $data[$i][1];
-        $arrayProcessat[$i]["cicle"] = $data[$i][2];
-        $arrayProcessat[$i]["curs"] = preg_split("/\s/", $data[$i][3])[0];
-        $arrayProcessat[$i]["grup"] = isset($data[$i][4]) ? preg_split("/\s/", $data[$i][4])[0] : "";
-        if(preg_match("/^\w\./", $data[$i][0])) {
-            $arrayProcessat[$i]["foto"] = "NO";
+    try {
+        for ($i = 0; $i < count($data); $i++) {
+            $arrayProcessat[$i]["id"] = $data[$i][0];
+            $arrayProcessat[$i]["nom"] = $data[$i][1];
+            $arrayProcessat[$i]["cicle"] = $data[$i][2];
+            $arrayProcessat[$i]["curs"] = preg_split("/\s/", $data[$i][3])[0];
+            $arrayProcessat[$i]["grup"] = isset($data[$i][4]) ? preg_split("/\s/", $data[$i][4])[0] : "";
+            if(preg_match("/^\w\./", $data[$i][0])) {
+                $arrayProcessat[$i]["foto"] = "NO";
+            }
         }
-    }
 
-    return $arrayProcessat;
+        return $arrayProcessat;
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+    }
 }
 ?>
