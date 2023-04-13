@@ -3,6 +3,7 @@ session_start();
 
 if (isset($_POST['submit-tsv'])) {
     try {
+        include_once './crearCarpetes.php';
         $target_dir = "../tsv/";
         $target_file = $target_dir . basename($_FILES['arxiu']["name"]);
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -38,10 +39,10 @@ if (isset($_POST['submit-tsv'])) {
             $arxiu = '../model/classes.json';
             file_put_contents($arxiu, $json_string);
             putenv("DADES_TSV=$json_string");
+            require general();
 
-            // var_dump($arrayProcessat);
             echo "Importació correcta.";
-            header("refresh:3;url=../admin/");
+            //header("refresh:3;url=../admin/");
         } else {
             header("refresh:3;url=../admin/");
         }

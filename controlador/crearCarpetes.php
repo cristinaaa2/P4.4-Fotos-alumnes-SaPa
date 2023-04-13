@@ -1,17 +1,20 @@
 <?php
 use Google\Client;
 use Google\Service\Drive;
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->safeLoad();
 
-$data = file_get_contents("../model/classe.json");
-$classes = json_decode($data, true);
+function general() {
+    require_once '../vendor/autoload.php';
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->safeLoad();
 
-var_dump($classes);
+    $data = file_get_contents("../model/classes.json");
+    $classes = json_decode($data, true);
 
-foreach ($classes as $classe) {
-    crearCarpeta($classe->cicle . $classe->curs . $classe->grup);
-    crearCarpetaDrive($classe->cicle . $classe->curs . $classe->grup);
+    foreach ($classes as $classe) {
+        crearCarpeta($classe["cicle"] . $classe["curs"] . $classe["grup"]);
+        crearCarpetaDrive($classe["cicle"] . $classe["curs"] . $classe["grup"]);
+        break;
+    }
 }
 
 function crearCarpeta($classe) {
@@ -23,9 +26,9 @@ function crearCarpeta($classe) {
 function crearCarpetaDrive($classe) {
     
     try {
-        $client = new Client();
+        $client = new Google_Client();
         $client->useApplicationDefaultCredentials();
-        $client->addScope(Drive::DRIVE);
+        $client->setScopes(['https://www.googleapis.com/auth/drive.file']);
         $driveService = new Drive($client);
         $fileMetadata = new Drive\DriveFile(array(
             'name' => $classe,
@@ -33,7 +36,7 @@ function crearCarpetaDrive($classe) {
             'parents' => array('1cEVsO_nPDjo-H-HM3em_yxBPRFbCQNfg')));
         $file = $driveService->files->create($fileMetadata, array(
             'fields' => 'id'));
-        printf("Folder ID: %s\n", $file->id);
+        //printf("Folder ID: %s\n", $file->id);
         return $file->id;
     } catch(Exception $e) {
        echo "Error Message: ".$e;
