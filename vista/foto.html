@@ -32,6 +32,7 @@
         </div>
     </nav>
     <a class="btn btn-light mx-5 mt-4" href="javascript:history.back()">Tornar</a>
+    <button type="button" class="btn btn-dark mt-4" data-bs-toggle="modal" data-bs-target="#selectCam"><i class="bi bi-camera-video"></i></button>
     <div class="sect m-5">
         <video id="video" class="position-absolute top-50 start-50 translate-middle m-5 border-5 border-dark rounded-3"></video>
         <div class="foto bg-light border rounded-5" id="botons">
@@ -40,11 +41,20 @@
             <button class="btn fs-2" id="guardar" hidden><i class="bi bi-save-fill"></i></button><br>
         </div>
         <canvas id="canvas" class="position-absolute top-50 start-50 translate-middle m-5"></canvas>
-        <!-- <canvas id="canvas2" hidden></canvas> -->
-        <!-- <div class="col-10 file">
-            <label for="formFile" class="form-label" id="labelFile">Buscar en el escriptori:</label><br>
-            <input type="file" id="file" class="form-control" accept="image/jpg" capture="camera">
-        </div> -->
+        <canvas id="canvas2" hidden></canvas>
     </div>
+      <div class="modal fade" id="selectCam" tabindex="-1" aria-labelledby="selectCamLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="selectCamLabel">Selecciona una camara:</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <select id="camera-select"></select>
+            </div>
+          </div>
+        </div>
+      </div>
 </body>
 </html>

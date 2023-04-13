@@ -13,39 +13,57 @@ if (isset($_POST['submit-tsv'])) {
         echo "ERROR no s'ha pogut pujar l'arxiu\n";
     }
 
-    $tsv = fopen($target_file, "r");
+    try {
+        $target_dir = "../tsv/";
+        $target_file = $target_dir . basename($_FILES['arxiu']["name"]);
+        $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $delimiter = "\n";
 
-    if ($tsv) {
-        $data = array();
-
-        while (!feof($tsv)) {
-            $line = fgets($tsv);
-
-            $campsUsuari = preg_split("/[\t]/", $line);
-
-            if($campsUsuari[0] != "") {
-                array_push($data, $campsUsuari);
-            }
+        if (move_uploaded_file($_FILES['arxiu']['tmp_name'], $target_file) && $fileType == "tsv") {
+            echo "Ficher valid, s'ha pujat l'arxiu.\n";
+        } else {
+            echo "ERROR no s'ha pogut pujar l'arxiu\n";
         }
 
-        fclose($tsv);
+        $tsv = fopen($target_file, "r");
 
-        $arrayProcessat = estilitzarArray($data);
+        if ($tsv) {
+            $data = array();
 
-        //Hacer un split del array y convertirlo a json
-        $json_string = json_encode($arrayProcessat);
-        $arxiu = '../model/classes.json';
-        file_put_contents($arxiu, $json_string);
-        putenv("DADES_TSV=$json_string");
+            while (!feof($tsv)) {
+                $line = fgets($tsv);
 
-        //var_dump($arrayProcessat);
-        print_r(getenv("DADES_TSV"));
-        //header("Location: ../admin/");
-    } else {
-        header("Location: ../admin/");
+                $campsUsuari = preg_split("/[\t]/", $line);
+
+                if($campsUsuari[0] != "") {
+                    array_push($data, $campsUsuari);
+                }
+            }
+
+            fclose($tsv);
+
+            $arrayProcessat = estilitzarArray($data);
+
+            //Hacer un split del array y convertirlo a json
+            $json_string = json_encode($arrayProcessat);
+            $arxiu = '../model/classes.json';
+            file_put_contents($arxiu, $json_string);
+            putenv("DADES_TSV=$json_string");
+
+            // var_dump($arrayProcessat);
+            echo "Importació correcta.";
+            header("refresh:3;url=../admin/");
+        } else {
+            header("refresh:3;url=../admin/");
+        }
+    } catch (Exception $e) {
+        echo "Error al importar les dades.";
     }
 }
 
+/**
+ * Estilitzar l'array per poder fer el JSON
+ */
 function estilitzarArray($data) {
     $arrayProcessat = array();
 
