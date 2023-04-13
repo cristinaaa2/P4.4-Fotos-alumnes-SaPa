@@ -2,17 +2,6 @@
 session_start();
 
 if (isset($_POST['submit-tsv'])) {
-    $target_dir = "../tsv/";
-    $target_file = $target_dir . basename($_FILES['arxiu']["name"]);
-    $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    $delimiter = "\n";
-
-    if (move_uploaded_file($_FILES['arxiu']['tmp_name'], $target_file) && $fileType == "tsv") {
-        echo "Ficher valid, s'ha pujat l'arxiu.\n";
-    } else {
-        echo "ERROR no s'ha pogut pujar l'arxiu\n";
-    }
-
     try {
         $target_dir = "../tsv/";
         $target_file = $target_dir . basename($_FILES['arxiu']["name"]);
