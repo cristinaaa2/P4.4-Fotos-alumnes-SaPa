@@ -56,6 +56,11 @@ canvas {
 	border: white dashed 5px;
 }
 
+#canvas2{
+	width: 700px;
+	height: 500px;
+}
+
 .foto {
 	position: absolute;
 	top: 80%;
