@@ -4,12 +4,13 @@ session_start();
 if (isset($_POST['submit-tsv'])) {
     $target_dir = "../tsv/";
     $target_file = $target_dir . basename($_FILES['arxiu']["name"]);
+    $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     $delimiter = "\n";
 
-    if (move_uploaded_file($_FILES['arxiu']['tmp_name'], $target_file)) {
-        echo "File is valid, and was successfully uploaded.\n";
+    if (move_uploaded_file($_FILES['arxiu']['tmp_name'], $target_file) && $fileType == "tsv") {
+        echo "Ficher valid, s'ha pujat l'arxiu.\n";
     } else {
-        echo "Possible file upload attack!\n";
+        echo "ERROR no s'ha pogut pujar l'arxiu\n";
     }
 
     $tsv = fopen($target_file, "r");
@@ -35,9 +36,11 @@ if (isset($_POST['submit-tsv'])) {
         $json_string = json_encode($arrayProcessat);
         $arxiu = '../model/classes.json';
         file_put_contents($arxiu, $json_string);
+        putenv("DADES_TSV=$json_string");
 
-        var_dump($arrayProcessat);
-        header("Location: ../admin/");
+        //var_dump($arrayProcessat);
+        print_r(getenv("DADES_TSV"));
+        //header("Location: ../admin/");
     } else {
         header("Location: ../admin/");
     }
@@ -47,7 +50,6 @@ function estilitzarArray($data) {
     $arrayProcessat = array();
 
     for ($i = 0; $i < count($data); $i++) {
-
 
         $arrayProcessat[$i]["id"] = $data[$i][0];
         $arrayProcessat[$i]["nom"] = $data[$i][1];
@@ -61,37 +63,4 @@ function estilitzarArray($data) {
 
     return $arrayProcessat;
 }
-
-/**
- * Comprovar si l'arxiu passat per l'usuari es correcte
- * @param target_file la ruta de la foto.
- * @param imageFileType format de la imatge
- */
-function comprovarImatge($target_file, $imageFileType) {
-    $error = "";
-    
-    $check = getimagesize($_FILES["imatge"]["tmp_name"]);
-    if($check == false) {
-        $error .= "ERROR. L'arxiu no és una imatge.";
-    }
-
-    //Comprovar si l'arxiu ja existeix
-    if (file_exists($target_file)) {
-    $error .= "ERROR. L'arxiu ja existeix.";
-    }
-
-    //Comprovar la mida de l'arxiu
-    if ($_FILES["imatge"]["size"] > 500000) {
-    $error .= "ERROR. El tamany de l'arxiu és molt gran.";
-    }
-
-    //Permetre només uns certs formats
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
-    $error .= "ERROR. Només arxius JPG, JPEG, PNG i GIF estàn permesos.";
-    }
-
-    return $error;
-}
-
 ?>
