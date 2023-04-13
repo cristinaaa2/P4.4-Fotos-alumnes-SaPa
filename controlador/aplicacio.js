@@ -1,5 +1,9 @@
 let classes = [];
 
+window.onload = function() {
+	peticioClasses();
+}
+
 function guardarIDCarpetaDrive() {
 	let id = document.getElementById("IDcarpeta").value;
 
@@ -11,27 +15,26 @@ function guardarIDCarpetaDrive() {
 	}
 }
 
-window.onload = function() {
-	if(window.location.href.includes("/vista/taula.php")) {	
-		peticioTutors();
-	} else if(window.location.href.includes("/vista/classe.php")) {
-		let classe = window.location.search.split("=")[1];
-		peticioClasses(classe);
-	}
-}
-
-function peticioTutors() {
+/**
+ * Peticio AJAX per obtenir les dades dels tutors
+ */
+function peticioClasses() {
 	$.ajax({
 		url: "../controlador/aplicacio.php",
         type: "GET",
-        data: "tutor",
+        data: "classes",
         contentType: "application/json",
         success: function (data) {
 			let d =  JSON.parse(data);
 			if(d.error && d.error == "No hi ha dades") {
 				alert("No hi ha cap alumne");
 			} else {
-				mostrarTutors(d);
+				if(window.location.href.includes("/vista/taula.php")) {	
+					mostrarTutors(d);
+				} else if(window.location.href.includes("/vista/classe.php")) {
+					let classe = window.location.search.split("=")[1];
+					mostrarClasse(d, classe);
+				}
 			}
         },
         error: function (xhr, status) {
@@ -40,6 +43,10 @@ function peticioTutors() {
 	});
 }
 
+/**
+ * Mostra els tutors amb el nombre d'alumnes que té cada tutor i el nombre de fotos que té cada tutor en una taula.
+ * @param {object} dades dades de les classes
+ */
 function mostrarTutors(dades) {
 	try {
 		let taula = document.getElementById("tutors");
@@ -88,26 +95,11 @@ function mostrarTutors(dades) {
 	}
 }
 
-function peticioClasses(classe) {
-	$.ajax({
-		url: "../controlador/aplicacio.php",
-        type: "GET",
-        data: "alumnes",
-        contentType: "application/json",
-        success: function (data) {
-			let d =  JSON.parse(data);
-			if(d.error && d.error == "No hi ha dades") {
-				alert("No hi ha cap alumne");
-			} else {
-				mostrarClasse(d, classe);
-			}
-        },
-        error: function (xhr, status) {
-            alert("No s'ha pogut mostrar les classes");
-        }
-	});
-}
-
+/**
+ * Mostra els alumnes de la classe seleccionada en una taula i crida la funcio per mostrar en cards
+ * @param {*} dades dades de les classes
+ * @param {*} classe classe seleccionada
+ */
 function mostrarClasse(dades, classe) {
 	try {
 		let taula = document.getElementById("alumnes");
@@ -143,31 +135,36 @@ function mostrarClasse(dades, classe) {
 	}
 }
 
-function mostrarClasseCard(d, classe) {
+/**
+ * Mostra els alumnes de la classe seleccionada en cards
+ * @param {*} dades dades de les classes
+ * @param {*} classe classe seleccionada
+ */
+function mostrarClasseCard(dades, classe) {
 	try {
 		let img = document.getElementById("img");
 		img.innerHTML = "";
 		let card = "";
 		let file = "";
-		for (let i = 0; i < d.length; i++) {
-			if(!/^[a-z]*$/.test(d[i].id)) {
-				if(d[i].curs + d[i].cicle + d[i].grup == classe) {
-					if(d[i].foto == "SI") {
-						file = "../fotos/" + d[i].id + ".jpg";
+		for (let i = 0; i < dades.length; i++) {
+			if(!/^[a-z]*$/.test(dades[i].id)) {
+				if(dades[i].curs + dades[i].cicle + dades[i].grup == classe) {
+					if(dades[i].foto == "SI") {
+						file = "../fotos/" + dades[i].id + ".jpg";
 					} else {
 						file = "../fotos/user.png";
 					}
-					card = "<div class='col' id='"+ d[i].id + "C'>" + 
+					card = "<div class='col' id='"+ dades[i].id + "C'>" + 
 					"<div class='card h-100'>" +
-					"<img src='" + file + "' class='card-img-top' alt='" + d[i].id + "'>" +
+					"<img src='" + file + "' class='card-img-top' alt='" + dades[i].id + "'>" +
 					"<div class='card-body'>" +
-					"<h5 class='card-title'>" + d[i].nom + "</h5>" +
-					"<p class='card-text'>" + d[i].curs + " " + d[i].cicle +  " " + d[i].grup + "</p>" +
+					"<h5 class='card-title'>" + dades[i].nom + "</h5>" +
+					"<p class='card-text'>" + dades[i].curs + " " + dades[i].cicle +  " " + dades[i].grup + "</p>" +
 					"</div>" +
 					"</div>" +
 					"</div>";
 					img.innerHTML += card;
-					document.getElementById(d[i].id + "C").addEventListener("click", function() {
+					document.getElementById(dades[i].id + "C").addEventListener("click", function() {
 						let id = this.id;
 						window.location.href = "../controlador/drive.php?alumne=" + id + "&curs=" + classe;
 					});

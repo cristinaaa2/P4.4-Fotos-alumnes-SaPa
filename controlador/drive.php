@@ -14,19 +14,19 @@ try {
     $imageData = $_POST['foto'];
     $decodedData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imageData));
 
-    // Crear un nombre de archivo único para la imagen
+    // Crear un nom per la imatge
     $fileName = $_POST["alumne"] . '.jpg';
 
-    // Guardar la imagen en una carpeta del proyecto
+    // Guardar la imagen en una carpeta del servidor
     file_put_contents('../fotos/' . $fileName, $decodedData);
 
+    // Guardar la imatge al drive
     $service = new Google\Service\Drive($client);
     existeFotoDrive($service, $fileName);
     $file_path = "../fotos/" . $fileName;
 
     $file = new Google\Service\Drive\DriveFile();
     $file->setName($fileName);
-
     $file->setParents(array("1cEVsO_nPDjo-H-HM3em_yxBPRFbCQNfg"));
     $file->setDescription("Foto alumne_" . $_POST["alumne"] . " de la classe_" . $_POST["classe"]);
     $file->setMimeType("image/jpg");
@@ -54,6 +54,9 @@ try {
   echo "ERROR: Al guardar la imatge.";
 }
 
+/**
+ * Comprova si la foto ja existeix al drive i la borra.
+ */
 function existeFotoDrive($service, $fileName) {
   $files = $service->files->listFiles([
     'q' => "name='" . $fileName . "'"
@@ -65,6 +68,9 @@ function existeFotoDrive($service, $fileName) {
    
 }
 
+/**
+ * Marca la foto del alumne com a "SI" en el JSON de classes.
+ */
 function marcarFoto() {
   $file = "../model/classes.json";
   if(file_exists($file)) {

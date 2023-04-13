@@ -2,47 +2,56 @@
 session_start();
 
 if (isset($_POST['submit-tsv'])) {
-    $target_dir = "../tsv/";
-    $target_file = $target_dir . basename($_FILES['arxiu']["name"]);
-    $delimiter = "\n";
+    try {
+        $target_dir = "../tsv/";
+        $target_file = $target_dir . basename($_FILES['arxiu']["name"]);
+        $delimiter = "\n";
 
-    if (move_uploaded_file($_FILES['arxiu']['tmp_name'], $target_file)) {
-        echo "File is valid, and was successfully uploaded.\n";
-    } else {
-        echo "Possible file upload attack!\n";
-    }
-
-    $tsv = fopen($target_file, "r");
-
-    if ($tsv) {
-        $data = array();
-
-        while (!feof($tsv)) {
-            $line = fgets($tsv);
-
-            $campsUsuari = preg_split("/[\t]/", $line);
-
-            if($campsUsuari[0] != "") {
-                array_push($data, $campsUsuari);
-            }
+        if (move_uploaded_file($_FILES['arxiu']['tmp_name'], $target_file)) {
+            echo "El fitxer és vàlid i s'ha penjat correctament.\n";
+        } else {
+            echo "Error al carregar el fitxer\n";
         }
 
-        fclose($tsv);
+        $tsv = fopen($target_file, "r");
 
-        $arrayProcessat = estilitzarArray($data);
+        if ($tsv) {
+            $data = array();
 
-        //Hacer un split del array y convertirlo a json
-        $json_string = json_encode($arrayProcessat);
-        $arxiu = '../model/classes.json';
-        file_put_contents($arxiu, $json_string);
+            while (!feof($tsv)) {
+                $line = fgets($tsv);
 
-        var_dump($arrayProcessat);
-        header("Location: ../admin/");
-    } else {
-        header("Location: ../admin/");
+                $campsUsuari = preg_split("/[\t]/", $line);
+
+                if($campsUsuari[0] != "") {
+                    array_push($data, $campsUsuari);
+                }
+            }
+
+            fclose($tsv);
+
+            $arrayProcessat = estilitzarArray($data);
+
+            //Hacer un split del array y convertirlo a json
+            $json_string = json_encode($arrayProcessat);
+            $arxiu = '../model/classes.json';
+            file_put_contents($arxiu, $json_string);
+
+            // var_dump($arrayProcessat);
+            echo "Importació correcta.";
+            header("refresh:3;url=../admin/");
+        } else {
+            header("refresh:3;url=../admin/");
+        }
+    } catch (Exception $e) {
+        echo "Error al importar les dades.";
     }
+    
 }
 
+/**
+ * Estilitzar l'array per poder fer el JSON
+ */
 function estilitzarArray($data) {
     $arrayProcessat = array();
 
