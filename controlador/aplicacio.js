@@ -152,7 +152,7 @@ function mostrarClasseCard(dades, classe) {
 					if(dades[i].foto == "SI") {
 						file = "../fotos/" + dades[i].id + ".jpg";
 					} else {
-						file = "../fotos/user.png";
+						file = "../vista/sources/img/user.png";
 					}
 					card = "<div class='col' id='"+ dades[i].id + "C'>" + 
 					"<div class='card h-100'>" +
