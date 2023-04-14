@@ -60,7 +60,7 @@ try {
     if (!isset($_SESSION['usuari'])) {
       header("Location: ../index.php");
     }
-    require_once "../vista/foto.html";
+    require_once "../vista/foto.php";
   }
 } catch (Google_Service_Exception $e) {
   echo "ERROR: Al guardar la imatge al drive.";
