@@ -3,6 +3,7 @@
 if (isset($_POST['submit-tsv'])) {
     try {
         include_once './crear_carpetes.php';
+        include_once './eliminar_fotos.php';
         $target_dir = "../tsv/";
         $target_file = $target_dir . basename($_FILES['arxiu']["name"]);
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -33,6 +34,7 @@ if (isset($_POST['submit-tsv'])) {
             $arxiu = '../model/classes.json';
             file_put_contents($arxiu, $json_string);
             putenv("DADES_TSV=$json_string");
+            eliminarCarpetaServidor('../fotos/*');
             general();
 
             echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>Importació feta correctament.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";

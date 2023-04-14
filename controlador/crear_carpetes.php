@@ -2,19 +2,18 @@
 use Google\Client;
 use Google\Service\Drive;
 require_once '../google-api-php-client--PHP8.0/vendor/autoload.php';
+require_once '../vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->safeLoad();
 putenv('GOOGLE_APPLICATION_CREDENTIALS=clave_drive.json');
 
 if(isset($_POST["id"])) {
-    echo "ID: " . $_POST["id"];
-    general();
+    echo $_SERVER['ID_PARENT_FOLDER'] = $_POST["id"];
+    //general();
 }
 
 function general() {
     try {
-        require_once '../vendor/autoload.php';
-        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-        $dotenv->safeLoad();
-
         $data = file_get_contents("../model/classes.json");
         $classes = json_decode($data, true);
 
@@ -51,7 +50,7 @@ function crearCarpetaDrive($classe) {
             $fileMetadata = new Google\Service\Drive\DriveFile(array(
                 'name' => $classe,
                 'mimeType' => 'application/vnd.google-apps.folder',
-                'parents' => array('1cEVsO_nPDjo-H-HM3em_yxBPRFbCQNfg')));
+                'parents' => array("1cEVsO_nPDjo-H-HM3em_yxBPRFbCQNfg")));
             $file = $driveService->files->create($fileMetadata, array(
                 'fields' => 'id'));
     } catch(Exception $e) {
