@@ -1,18 +1,50 @@
 let classes = [];
 
 window.onload = function() {
-	peticioClasses();
+	if(window.location.href.includes("/vista")) {	
+		peticioClasses();
+	} else if(window.location.href.includes("admin")) {
+		document.getElementById("Scarpeta").addEventListener("click", function() {
+			guardarIDCarpetaDrive();
+		});
+		document.getElementById("Ecarpeta").addEventListener("click", function() {
+			eliminarContingut();
+		});
+	}
 }
 
 function guardarIDCarpetaDrive() {
 	let id = document.getElementById("IDcarpeta").value;
 
 	if(id != "") {
-		classes[0].id = id;
-		console.log(classes);
+		$.ajax({
+			url: "../controlador/crear_carpetes.php",
+			type: "POST",
+			data: {id: id},
+			success: function (data) {
+				alert(data)
+			},
+			error: function (xhr, status) {
+				alert("No s'ha pogut guardar l'ID");
+			}
+		});
 	} else {
 		alert("No has introduït cap ID");
 	}
+}
+
+function eliminarContingut() {
+	$.ajax({
+		url: "../controlador/eliminar_fotos.php",
+		type: "POST",
+		data: "Ecarpeta",
+		success: function (data) {
+			alert(data)
+		},
+		error: function (xhr, status) {
+			alert("ERROR: No s'ha pogut eliminar el contingut");
+		}
+	});
 }
 
 /**
@@ -58,7 +90,7 @@ function mostrarTutors(dades) {
 			numAlumnes = 0;
 			numFotos = 0;
 			if(/^[a-z]*$/.test(dades[i].id)) {
-				curs = dades[i].curs + dades[i].cicle + dades[i].grup;
+				curs = dades[i].cicle + dades[i].curs + dades[i].grup;
 				for(let j = 0; j < dades.length; j++) {
 					if(dades[j].curs == dades[i].curs && dades[j].cicle == dades[i].cicle && dades[j].grup == dades[i].grup) {
 						if(dades[j].foto) {
@@ -106,7 +138,7 @@ function mostrarClasse(dades, classe) {
 		taula.innerHTML = "";
 		for(let i = 0; i < dades.length; i++) {
 			if(!/^[a-z]*$/.test(dades[i].id)) {
-				if(dades[i].curs + dades[i].cicle + dades[i].grup == classe) {
+				if(dades[i].cicle + dades[i].curs + dades[i].grup == classe) {
 					let tr = document.createElement("tr");
 					let td = document.createElement("td");
 					let text = document.createTextNode(dades[i].id);

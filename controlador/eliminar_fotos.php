@@ -1,5 +1,10 @@
 <?php
 
+if(isset($_POST['id'])) {
+    // rmdirRecursive('../fotos/');
+    echo "OK";
+}
+
 function rmdirRecursive($dir) {
     $files = scandir($dir);
    

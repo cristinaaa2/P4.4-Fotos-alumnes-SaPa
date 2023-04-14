@@ -8,7 +8,7 @@ if (!isset($_SESSION['usuari'])) {
       // Claus del client i ruta de redireccionament autoritzada
       $clientID = '460822153535-j7c9h85prrbdqbdb7oeh2h3uat230mge.apps.googleusercontent.com';
       $clientSecret = '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';
-      $redirectUri = 'http://localhost/Client/P4.4%20-%20Fotos%20alumnes%20SaPa/P4.4-Fotos-alumnes-SaPa/index.php';
+      $redirectUri = 'http://localhost/Client/P4.4-FoSa/index.php';
     
       // Crear una sol·licitud de client per accedir a l'API de Google
       $client = new Google_Client();

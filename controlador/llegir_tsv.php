@@ -1,19 +1,13 @@
 <?php
-session_start();
-
+// Llegir el fitxer de dades i les importa en un JSON
 if (isset($_POST['submit-tsv'])) {
     try {
-        include_once './crearCarpetes.php';
+        include_once './crear_carpetes.php';
         $target_dir = "../tsv/";
         $target_file = $target_dir . basename($_FILES['arxiu']["name"]);
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         $delimiter = "\n";
-
-        if (move_uploaded_file($_FILES['arxiu']['tmp_name'], $target_file) && $fileType == "tsv") {
-            echo "Ficher valid, s'ha pujat l'arxiu.\n";
-        } else {
-            echo "ERROR no s'ha pogut pujar l'arxiu\n";
-        }
+        move_uploaded_file($_FILES['arxiu']['tmp_name'], $target_file) && $fileType == "tsv";
 
         $tsv = fopen($target_file, "r");
 
@@ -39,15 +33,20 @@ if (isset($_POST['submit-tsv'])) {
             $arxiu = '../model/classes.json';
             file_put_contents($arxiu, $json_string);
             putenv("DADES_TSV=$json_string");
-            require general();
+            general();
 
-            echo "Importació correcta.";
-            //header("refresh:3;url=../admin/");
+            echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>Importació feta correctament.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+            require_once "../admin/index.php";
+            header("refresh:3;url=../admin/");
         } else {
+            echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>ERROR: Error al open el arxiu.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+            require_once "../admin/index.php";
             header("refresh:3;url=../admin/");
         }
     } catch (Exception $e) {
-        echo "Error al importar les dades.";
+        echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Error al importar les dades.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+        require_once "../admin/index.php";
+        header("refresh:3;url=../admin/");
     }
 }
 
