@@ -39,7 +39,7 @@ function crearCarpetaDrive($classe) {
     try {
         $client = new Google_Client();
         $client->useApplicationDefaultCredentials();
-        $client->setScopes(['https://www.googleapis.com/auth/drive.file']);
+        $client->setScopes(['https://www.googleapis.com/auth/drive']);
         $driveService = new Google\Service\Drive($client);
 
         $results = $driveService->files->listFiles([

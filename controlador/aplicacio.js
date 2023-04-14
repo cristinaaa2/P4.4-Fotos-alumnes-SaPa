@@ -39,6 +39,9 @@ function eliminarContingut() {
 		type: "POST",
 		data: "Ecarpeta",
 		success: function (data) {
+			if(data == "OK") {
+				data = "S'ha eliminat el contingut de la carpeta";
+			}
 			alert(data)
 		},
 		error: function (xhr, status) {
