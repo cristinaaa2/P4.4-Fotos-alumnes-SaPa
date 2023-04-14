@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
     <script src="https://apis.google.com/js/platform.js"></script>
     <link rel="stylesheet" href="../vista/sources/estils.css">
+    <link rel="shortcut icon" href="../vista/sources/img/logo-sapa.png" type="image/x-icon">
     <script src="../controlador/fotos.js"></script>
     <title>Foto</title>
 </head>
@@ -31,8 +32,10 @@
             </div>
         </div>
     </nav>
-    <a class="btn btn-light mx-5 mt-4" href="javascript:history.back()">Tornar</a>
-    <button type="button" class="btn btn-dark mt-4" data-bs-toggle="modal" data-bs-target="#selectCam"><i class="bi bi-camera-video"></i></button>
+    <div class="i">
+        <a class="btn btn-light mx-5 mt-4" href="javascript:history.back()">Tornar</a>
+        <button type="button" class="btn btn-dark mt-4" data-bs-toggle="modal" data-bs-target="#selectCam"><i class="bi bi-camera-video"></i></button>
+    </div>
     <div class="sect m-5">
         <video id="video" class="position-absolute top-50 start-50 translate-middle m-5 border-5 border-dark rounded-3"></video>
         <div class="foto bg-light border rounded-5" id="botons">
@@ -41,7 +44,7 @@
             <button class="btn fs-2" id="guardar" hidden><i class="bi bi-save-fill"></i></button><br>
         </div>
         <canvas id="canvas" class="position-absolute top-50 start-50 translate-middle m-5"></canvas>
-        <canvas id="canvas2" hidden></canvas>
+        <canvas id="canvas2" width="500" height="700" hidden></canvas>
     </div>
       <div class="modal fade" id="selectCam" tabindex="-1" aria-labelledby="selectCamLabel" aria-hidden="true">
         <div class="modal-dialog">

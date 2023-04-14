@@ -91,7 +91,7 @@ function marcarFoto() {
     $json_str = file_get_contents($file);
     $json = json_decode($json_str, true);
     for($i = 0; $i < count($json); $i++) {
-      $curs = $json[$i]['curs']. $json[$i]['cicle'] . $json[$i]['grup'];
+      $curs = $json[$i]['cicle'] . $json[$i]['curs']. $json[$i]['grup'];
       if($json[$i]['id'] == $_POST['alumne'] && $curs == $_POST['classe']) {
         $json[$i]['foto'] = "SI";
         $json_str = json_encode($json);

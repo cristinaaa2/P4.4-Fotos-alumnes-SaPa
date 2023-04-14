@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="../vista/sources/img/logo-sapa.png" type="image/x-icon">
     <link rel="stylesheet" href="sources/estils.css">
     <script type="module" src="../controlador/aplicacio.js"></script>
     <title>Tutors</title>
@@ -36,7 +37,7 @@
         </div>
     </nav>
     <div class="m-5 col-6">
-        <table class="table table-info">
+        <table class="table table-info table-hover">
             <thead class="table-dark">
                 <tr>
                     <th>Tutor</th>

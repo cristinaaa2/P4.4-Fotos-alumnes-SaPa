@@ -87,3 +87,8 @@ label {
 	font-weight: bold;
 	font-size: 18px;
 }
+
+.i {
+	position: absolute;
+	z-index: 20;
+}

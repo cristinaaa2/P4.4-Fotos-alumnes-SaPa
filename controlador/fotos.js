@@ -1,19 +1,18 @@
+let sw;
+let sh;
+let nh;
+let vh;
+let vw;
+let ch;
+let cw;
+let canvas;
+let canvas2;
+let video;
 window.onload = function() {
-
-    // 
-    const video = document.getElementById('video');
-    let canvas = document.getElementById("canvas");
-    let canvas2 = document.getElementById("canvas2");
-    let sw = window.innerWidth;
-    let sh = window.innerHeight * 0.8;
-    let w = 500 * sh / 700;
-    let h = sh;
-    canvas.style.width = w + "px";
-    canvas.style.height = h + "px";
-
-    
-    video.style.width = (window.innerWidth * 0.85) + "px";
-    video.style.height = (window.innerHeight * 0.85) + "px";
+    video = document.getElementById('video');
+    canvas = document.getElementById("canvas");
+    canvas2 = document.getElementById("canvas2");
+    initMida();
 
     // Canviar de càmera
     const cameraSelect = document.getElementById('camera-select');
@@ -73,27 +72,24 @@ window.onload = function() {
     let guardar = document.getElementById("guardar");
     foto.addEventListener("click", function() {
         try {
-            var video = document.getElementById("video");
+            initMida();
             video.style.display = "none";
-            let sw = window.innerWidth;
-            let sh = window.innerHeight;
-            let w = 500 * sh / 700;
-            let h = sh;
-            let x = (sw - w) / 2;
-            let y = 0;
-            console.log("sw: " + sw + " sh: " + sh + " w: " + w + " h: " + h + " x: " + x + " y: " + y);
             let vidInfo = currentStream.getVideoTracks()[0].getSettings();
+            console.log(vidInfo);
+            cw = vidInfo.height * 500 / 700;
+            ch = vidInfo.height;
+            x = (vidInfo.width - cw) / 2;
+            y = 0;
+            console.log("x: " + x + " y: " + y + " cw: " + cw + " ch: " + ch);
             const context = canvas.getContext("2d");
             const context2 = canvas2.getContext("2d");
-            context2.canvas.width = 500;
-            context2.canvas.height = 700;
             foto.hidden = true;
             cancelar.hidden = false;
             guardar.hidden = false;
-            context.drawImage(video, x, y, w, h, 0, 0, 500, 700);
-            context2.drawImage(video, x, y, 500, 700, 0, 0, 500, 700);
+            context.drawImage(video, x, y, cw, ch, 0, 0, cw, ch);
+            context2.drawImage(video, x, y, cw, ch, 0, 0, 500, 700);
         } catch (error) {
-            alert("ERROR: Hi ha hagut un error al fer la foto");
+            alert("ERROR: Hi ha hagut un error al fer la foto.");
         }
     });
 
@@ -125,9 +121,9 @@ window.onload = function() {
     // Cancel·la la foto
     cancelar.addEventListener("click", function() {
         try {
-            var video = document.getElementById("video");
             video.style.display = "block";
-            var canvas = document.getElementById("canvas");
+            initMida();
+            canvas = document.getElementById("canvas");
             var context = canvas.getContext("2d");
             foto.hidden = false;
             cancelar.hidden = true;
@@ -138,18 +134,26 @@ window.onload = function() {
         }
     });
 
-    // Redimensiona la càmera
-    onresize = function() {
-        // var canvas = document.getElementById("canvas");
-        let sw = window.innerWidth;
-        let sh = window.innerHeight* 0.8;
-        let w = 500 * sh / 700;
-        let h = sh;
-        canvas.style.width = w + "px";
-        canvas.style.height = h + "px";
-        // var video = document.getElementById("video");
-        video.style.width = (window.innerWidth * 0.85) + "px";
-        video.style.height = (window.innerHeight * 0.85) + "px";
-        console.log("w: " + w + " h: " + h);
-    }
+}
+
+ // Redimensiona la càmera
+onresize = function() {
+    initMida();
+}
+
+function initMida() {
+    sw = window.innerWidth;
+    sh = window.innerHeight;
+    let nav = document.getElementsByTagName("nav")[0];
+
+    nh = nav.getBoundingClientRect().height;
+    video.style.height = ((sh - nh) * 0.98) + "px";
+    vh = video.style.height.split("px")[0];
+    vw = video.getBoundingClientRect().width;
+    console.log(" vw: " + vw + " vh: " + vh);
+    
+    canvas.width = vh * 500 / 700;
+    canvas.height = vh;
+    ch = canvas.width;
+    cw = canvas.height;
 }
