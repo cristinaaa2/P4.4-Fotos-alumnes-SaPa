@@ -183,9 +183,9 @@ function mostrarClasseCard(dades, classe) {
 		let file = "";
 		for (let i = 0; i < dades.length; i++) {
 			if(!/^[a-z]*$/.test(dades[i].id)) {
-				if(dades[i].curs + dades[i].cicle + dades[i].grup == classe) {
+				if(dades[i].cicle + dades[i].curs + dades[i].grup == classe) {
 					if(dades[i].foto == "SI") {
-						file = "../fotos/" + dades[i].id + ".jpg";
+						file = "../fotos/" + classe + "/" + dades[i].id + ".jpg";
 					} else {
 						file = "../vista/sources/img/user.png";
 					}
@@ -199,13 +199,21 @@ function mostrarClasseCard(dades, classe) {
 					"</div>" +
 					"</div>";
 					img.innerHTML += card;
-					document.getElementById(dades[i].id + "C").addEventListener("click", function() {
-						let id = this.id;
+				}
+			}
+		}
+		for (let i = 0; i < dades.length; i++) {
+			if(!/^[a-z]*$/.test(dades[i].id)) {
+				if(dades[i].cicle + dades[i].curs + dades[i].grup == classe) {
+					let c = document.getElementById(dades[i].id + "C");
+					c.addEventListener("click", function() {
+						let id = this.id.split("C")[0];
 						window.location.href = "../controlador/drive.php?alumne=" + id + "&curs=" + classe;
 					});
 				}
 			}
 		}
+
 	} catch (error) {
 		alert("ERROR: no s'ha pogut mostrar les imatges de la classe");
 	}
