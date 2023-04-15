@@ -7,6 +7,7 @@ putenv('GOOGLE_APPLICATION_CREDENTIALS=clave_drive.json');
 if(isset($_POST['Ecarpeta'])) {
     try {
         eliminarCarpetaServidor('../fotos/*');
+        echo "Les carpetes s'han eliminat correctament.";
     } catch (Exception $e) {
         echo "ERROR: Hi ha hagut un error al eliminar el contingut de les carpetes.";
     }
