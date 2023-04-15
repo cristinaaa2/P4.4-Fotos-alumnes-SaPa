@@ -1,7 +1,22 @@
 <?php
+session_start();
 // Llegir el fitxer de dades i les importa en un JSON
 if (isset($_POST['submit-tsv'])) {
     try {
+        if(isset($_SESSION['VAR_GLOBAL'])) {
+            $dataGlobal = json_decode($_SESSION['VAR_GLOBAL'], true);
+            if(!isset($dataGlobal["id"])) {
+                echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Errora: No s'ha pogut crear la carpeta de Google Drive, s'ha d'especificar l'id de la carpeta.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+                require_once "../admin/index.php";
+                header("refresh:3;url=../admin/index.php");
+                exit();
+            }
+        } else {
+            echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Errosr: No s'ha pogut crear la carpeta de Google Drive, s'ha d'especificar l'id de la carpeta.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+            require_once "../admin/index.php";
+            header("refresh:3;url=../admin/index.php");
+            exit();
+        }
         include_once './crear_carpetes.php';
         include_once './eliminar_fotos.php';
         $target_dir = "../tsv/";
@@ -32,7 +47,9 @@ if (isset($_POST['submit-tsv'])) {
                 $json_string = json_encode($arrayProcessat);
                 $arxiu = '../model/classes.json';
                 file_put_contents($arxiu, $json_string);
-                putenv("DADES_TSV=$json_string");
+                $dataGlobal["classes"] = $arrayProcessat;
+                var_dump($dataGlobal);
+                $_SESSION['VAR_GLOBAL'] = json_encode($dataGlobal);
                 eliminarCarpetaServidor('../fotos/*');
                 general();
                 echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>Importació feta correctament.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";

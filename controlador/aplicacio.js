@@ -18,7 +18,7 @@ function guardarIDCarpetaDrive() {
 
 	if(id != "") {
 		$.ajax({
-			url: "../controlador/crear_carpetes.php",
+			url: "../admin/index.php",
 			type: "POST",
 			data: {id: id},
 			success: function (data) {

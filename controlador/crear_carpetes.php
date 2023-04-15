@@ -3,13 +3,15 @@ use Google\Client;
 use Google\Service\Drive;
 require_once '../google-api-php-client--PHP8.0/vendor/autoload.php';
 require_once '../vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->safeLoad();
 putenv('GOOGLE_APPLICATION_CREDENTIALS=clave_drive.json');
 
 if(isset($_POST["id"])) {
-    echo $_SERVER['ID_PARENT_FOLDER'] = $_POST["id"];
-    //general();
+    $id = array();
+    $id["id"] = $_POST["id"];
+    $json = json_encode($id);
+    $_SESSION['VAR_GLOBAL'] = $json;
+    general();
+    echo "Carpetes creades correctament!";
 }
 
 function general() {
@@ -24,7 +26,6 @@ function general() {
     } catch(Exception $e) {
         echo "Error al crear les carpetes.";
     }
-    
 }
 
 function crearCarpeta($classe) {
@@ -34,8 +35,8 @@ function crearCarpeta($classe) {
 }
 
 function crearCarpetaDrive($classe) {
-    
     try {
+        $id = json_decode($_SESSION['VAR_GLOBAL'], true)["id"];
         $client = new Google_Client();
         $client->useApplicationDefaultCredentials();
         $client->setScopes(['https://www.googleapis.com/auth/drive']);
@@ -50,7 +51,7 @@ function crearCarpetaDrive($classe) {
             $fileMetadata = new Google\Service\Drive\DriveFile(array(
                 'name' => $classe,
                 'mimeType' => 'application/vnd.google-apps.folder',
-                'parents' => array("1cEVsO_nPDjo-H-HM3em_yxBPRFbCQNfg")));
+                'parents' => array($id)));
             $file = $driveService->files->create($fileMetadata, array(
                 'fields' => 'id'));
     } catch(Exception $e) {
