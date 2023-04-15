@@ -3,7 +3,7 @@
 if (isset($_POST['submit-tsv'])) {
     try {
         include_once './crear_carpetes.php';
-        include_once './eliminar_fotos.php';
+        // include_once './eliminar_fotos.php';
         $target_dir = "../tsv/";
         $target_file = $target_dir . basename($_FILES['arxiu']["name"]);
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -33,11 +33,16 @@ if (isset($_POST['submit-tsv'])) {
                 $arxiu = '../model/classes.json';
                 file_put_contents($arxiu, $json_string);
                 putenv("DADES_TSV=$json_string");
-                eliminarCarpetaServidor('../fotos/*');
-                general();
-                echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>Importació feta correctament.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
-                require_once "../admin/index.php";
-                header("refresh:3;url=../admin/");
+                // eliminarCarpetaServidor('../fotos/*');
+                if(general()) {
+                    echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>Importació feta correctament.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+                    require_once "../admin/index.php";
+                    header("refresh:3;url=../admin/");
+                } else {
+                    echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>ERROR: Error al crear les carpetes.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+                    require_once "../admin/index.php";
+                    header("refresh:3;url=../admin/");
+                }
             } else {
                 echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>ERROR: Error al open el arxiu.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
                 require_once "../admin/index.php";
@@ -74,7 +79,7 @@ function estilitzarArray($data) {
 
         return $arrayProcessat;
     } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
+        echo "Error: Al estilitzar l'array.";
     }
 }
 ?>

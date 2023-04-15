@@ -108,7 +108,7 @@ window.onload = function() {
                 if(data == "OK") {
                   alert("La imatge s'ha guardar correctament al servidor i al drive.");  
                 } else {
-                    alert("Hi ha hagut un error al guardar la foto");
+                    alert(data);
                 }
                 
             },

@@ -24,7 +24,7 @@
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto">
-                    <a class="nav-link text-light"><strong></strong></a>
+                    <a class="nav-link text-light"><strong><?php echo $_SESSION["usuari"] ?></strong></a>
                     <a class="nav-link text-light btn btn-danger mx-2" href="../controlador/logout.php"><i class="bi bi-box-arrow-right"></i></a>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                     <div class="m-3">
                         <label for="formFile" class="form-label">Fitxer .tsv:</label>
                         <input type="file" class="form-control" id="formFile" name="arxiu">
-                        <small>*Al carregar el fitxer .tsv es posaran les fotos a 0.</small>
+                        <!-- <small>*Al carregar el fitxer .tsv es posaran les fotos a 0.</small> -->
                     </div>
                     <div class="m-3">
                         <input type="submit" class="btn btn-primary" value="Confirmar" name="submit-tsv">
