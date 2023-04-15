@@ -28,12 +28,27 @@ if (isset($_POST['submit-tsv'])) {
 
                 $arrayProcessat = estilitzarArray($data);
 
-                //Hacer un split del array y convertirlo a json
+                $dataBDD = file_get_contents("../model/classes.json");
+                $oldClasses = json_decode($dataBDD, true);
+
+                //var_dump($classes);
+                var_dump($arrayProcessat);
+
                 $json_string = json_encode($arrayProcessat);
                 $arxiu = '../model/classes.json';
                 file_put_contents($arxiu, $json_string);
-                putenv("DADES_TSV=$json_string");
                 // eliminarCarpetaServidor('../fotos/*');
+
+                //afegir l'usuari del tsv al json si no existeix a la base de dades
+                for ($i = 0; $i < count($oldClasses); $i++) {
+                    for ($j = 0; $j < count($arrayProcessat); $j++) {
+                        if ($oldClasses[$i]["id"] != $arrayProcessat[$j]["id"]) {
+                            array_push($oldClasses, $arrayProcessat[$j]);
+                        }
+                    }
+                }
+                
+
                 if(general()) {
                     echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>Importació feta correctament.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
                     require_once "../admin/index.php";

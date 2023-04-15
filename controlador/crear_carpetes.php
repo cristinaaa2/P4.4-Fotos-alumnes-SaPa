@@ -58,9 +58,9 @@ function crearCarpeta($classe) {
        if (!file_exists("../fotos/" . $classe)) {
             mkdir("../fotos/" . $classe, 0777);
         } 
-        else {
-            eliminarCarpetaServidor("../fotos/" . $classe . "/*");
-        } 
+        // else {
+        //     eliminarCarpetaServidor("../fotos/" . $classe . "/*");
+        // } 
     } catch(Exception $e) {
         echo "ERROR: Error al crear la carpeta del servidor.";
     }
