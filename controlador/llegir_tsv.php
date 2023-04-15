@@ -28,28 +28,26 @@ if (isset($_POST['submit-tsv'])) {
 
                 $arrayProcessat = estilitzarArray($data);
 
+
                 $dataBDD = file_get_contents("../model/classes.json");
-                $oldClasses = json_decode($dataBDD, true);
+                $classes = json_decode($dataBDD, true);
 
-                //var_dump($classes);
-                var_dump($arrayProcessat);
-
-                $json_string = json_encode($arrayProcessat);
-                $arxiu = '../model/classes.json';
-                file_put_contents($arxiu, $json_string);
-                // eliminarCarpetaServidor('../fotos/*');
-
-                //afegir l'usuari del tsv al json si no existeix a la base de dades
-                for ($i = 0; $i < count($oldClasses); $i++) {
+                if($classes !== null) {
+                    //afegir l'usuari del tsv al json si no existeix a la base de dades
                     for ($j = 0; $j < count($arrayProcessat); $j++) {
-                        if ($oldClasses[$i]["id"] != $arrayProcessat[$j]["id"]) {
-                            array_push($oldClasses, $arrayProcessat[$j]);
+                        if (strpos($dataBDD, $arrayProcessat[$j]["id"]) == false) {
+                            array_push($classes, $arrayProcessat[$j]);
                         }
                     }
+                    $json_string = json_encode($classes);
+                } else {
+                    $json_string = json_encode($arrayProcessat);
                 }
-                
 
-                if(general()) {
+                $arxiu = '../model/classes.json';
+                file_put_contents($arxiu, $json_string);
+
+                if(generarCarpetesTSV()) {
                     echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>Importació feta correctament.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
                     require_once "../admin/index.php";
                     header("refresh:3;url=../admin/");

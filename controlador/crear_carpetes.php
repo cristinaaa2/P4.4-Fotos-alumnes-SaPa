@@ -50,8 +50,26 @@ function general() {
     } catch(Exception $e) {
         return false;
     }
-    
 }
+
+function generarCarpetesTSV() {
+    try {
+        $data = file_get_contents("../model/classes.json");
+        $classes = json_decode($data, true);
+        $folderId = IdCarpetaPare();
+        if($folderId == "") {
+            return false;
+        } 
+        foreach ($classes as $classe) {
+            crearCarpetaTSV($classe["cicle"] . $classe["curs"] . $classe["grup"]);
+            crearCarpetaDriveTSV($classe["cicle"] . $classe["curs"] . $classe["grup"], $folderId);
+        }
+        return true;
+    } catch(Exception $e) {
+        return false;
+    }
+}
+
 
 function crearCarpeta($classe) {
     try {
@@ -61,6 +79,16 @@ function crearCarpeta($classe) {
         // else {
         //     eliminarCarpetaServidor("../fotos/" . $classe . "/*");
         // } 
+    } catch(Exception $e) {
+        echo "ERROR: Error al crear la carpeta del servidor.";
+    }
+}
+
+function crearCarpetaTSV($classe) {
+    try {
+       if (!file_exists("../fotos/" . $classe)) {
+            mkdir("../fotos/" . $classe, 0777);
+        } 
     } catch(Exception $e) {
         echo "ERROR: Error al crear la carpeta del servidor.";
     }
@@ -86,6 +114,29 @@ function crearCarpetaDrive($classe, $folderId) {
                 'parents' => array($folderId)));
             $file = $driveService->files->create($fileMetadata, array(
                 'fields' => 'id'));
+    } catch(Exception $e) {
+       echo "ERROR: Error al crear la carpeta del drive.";
+    }
+}
+
+function crearCarpetaDriveTSV($classe, $folderId) { 
+    try {
+        $client = new Google_Client();
+        $client->useApplicationDefaultCredentials();
+        $client->setScopes(['https://www.googleapis.com/auth/drive']);
+        $driveService = new Google\Service\Drive($client);
+
+        $results = $driveService->files->listFiles([
+            'q' => "name='".$classe."'"
+        ]);
+        if (count($results->files) < 1) {
+            $fileMetadata = new Google\Service\Drive\DriveFile(array(
+                'name' => $classe,
+                'mimeType' => 'application/vnd.google-apps.folder',
+                'parents' => array($folderId)));
+            $file = $driveService->files->create($fileMetadata, array(
+                'fields' => 'id'));
+        }
     } catch(Exception $e) {
        echo "ERROR: Error al crear la carpeta del drive.";
     }
