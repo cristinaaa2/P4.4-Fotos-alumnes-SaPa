@@ -2,7 +2,6 @@
 use Google\Client;
 use Google\Service\Drive;
 require_once '../google-api-php-client--PHP8.0/vendor/autoload.php';
-require_once '../vendor/autoload.php';
 include_once './eliminar_fotos.php';
 putenv('GOOGLE_APPLICATION_CREDENTIALS=clave_drive.json');
 
