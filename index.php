@@ -93,8 +93,8 @@ function comprovarCorreuRegistrat($email) {
 
 
 function esProfe($email) {
-  // $pattern = "/^\w[^\.]\w@sapalomera\.cat$/";
-  $pattern = "/.@sapalomera.cat$/";
+  $pattern = "/^\w[^\.]\w@sapalomera\.cat$/";
+  // $pattern = "/.@sapalomera.cat$/";
   if(preg_match($pattern, $email)){
     return true;
   } else {
