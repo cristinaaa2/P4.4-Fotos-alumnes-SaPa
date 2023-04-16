@@ -34,20 +34,22 @@ function guardarIDCarpetaDrive() {
 }
 
 function eliminarContingut() {
-	$.ajax({
-		url: "../controlador/eliminar_fotos.php",
-		type: "POST",
-		data: "Ecarpeta",
-		success: function (data) {
-			if(data == "OK") {
-				data = "S'ha eliminat el contingut de la carpeta";
+	if(confirm("Estàs segur que vols eliminar tot el cuntingut? (S'eliminaran totes les fotos en el servidor i les dades dels cursos)")) {
+		$.ajax({
+			url: "../controlador/eliminar_fotos.php",
+			type: "POST",
+			data: "Ecarpeta",
+			success: function (data) {
+				if(data == "OK") {
+					data = "S'ha eliminat el contingut de la carpeta";
+				}
+				alert(data)
+			},
+			error: function (xhr, status) {
+				alert("ERROR: No s'ha pogut eliminar el contingut");
 			}
-			alert(data)
-		},
-		error: function (xhr, status) {
-			alert("ERROR: No s'ha pogut eliminar el contingut");
-		}
-	});
+		});
+	}
 }
 
 /**
@@ -62,7 +64,7 @@ function peticioClasses() {
         success: function (data) {
 			let d =  JSON.parse(data);
 			if(d.error && d.error == "No hi ha dades") {
-				alert("No hi ha cap alumne");
+				alert("No hi han dades de les classes. S'ha de carregar un .tsv en la pagina d'admin.");
 			} else {
 				if(window.location.href.includes("/vista/taula.php")) {	
 					mostrarTutors(d);
@@ -73,7 +75,7 @@ function peticioClasses() {
 			}
         },
         error: function (xhr, status) {
-            alert("No s'ha pogut mostrar els tutors");
+            alert("No s'ha pogut mostrar les dades");
         }
 	});
 }

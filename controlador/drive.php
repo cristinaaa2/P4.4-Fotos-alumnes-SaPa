@@ -24,6 +24,9 @@ try {
       $folderName = $_POST["classe"];
 
       // Guardar la imagen en una carpeta del servidor
+      if (!file_exists('../fotos/' . $folderName)) {
+        mkdir('../fotos/' . $folderName, 0777, true);
+      }
       file_put_contents('../fotos/' . $folderName . '/' . $fileName, $decodedData);
 
       // Guardar la imatge al drive
@@ -95,12 +98,14 @@ function marcarFoto() {
   if(file_exists($file)) {
     $json_str = file_get_contents($file);
     $json = json_decode($json_str, true);
-    for($i = 0; $i < count($json); $i++) {
-      $curs = $json[$i]['cicle'] . $json[$i]['curs']. $json[$i]['grup'];
-      if($json[$i]['id'] == $_POST['alumne'] && $curs == $_POST['classe']) {
-        $json[$i]['foto'] = "SI";
-        $json_str = json_encode($json);
-        file_put_contents($file, $json_str);
+    if($json != null) {
+      for($i = 0; $i < count($json); $i++) {
+        $curs = $json[$i]['cicle'] . $json[$i]['curs']. $json[$i]['grup'];
+        if($json[$i]['id'] == $_POST['alumne'] && $curs == $_POST['classe']) {
+          $json[$i]['foto'] = "SI";
+          $json_str = json_encode($json);
+          file_put_contents($file, $json_str);
+        }
       }
     }
   }

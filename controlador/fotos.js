@@ -75,12 +75,12 @@ window.onload = function() {
             initMida();
             video.style.display = "none";
             let vidInfo = currentStream.getVideoTracks()[0].getSettings();
-            console.log(vidInfo);
+            // console.log(vidInfo);
             cw = vidInfo.height * 500 / 700;
             ch = vidInfo.height;
             x = (vidInfo.width - cw) / 2;
             y = 0;
-            console.log("x: " + x + " y: " + y + " cw: " + cw + " ch: " + ch);
+            // console.log("x: " + x + " y: " + y + " cw: " + cw + " ch: " + ch);
             const context = canvas.getContext("2d");
             const context2 = canvas2.getContext("2d");
             foto.hidden = true;

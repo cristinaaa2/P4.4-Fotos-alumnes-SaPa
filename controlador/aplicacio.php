@@ -9,6 +9,9 @@ if(isset($_GET["classes"])) {
         $file = "../model/classes.json";
         if(file_exists($file)) {
             $json = file_get_contents($file);
+            if($json == "") {
+                $json = "{\"error\": \"No hi ha dades\"}";
+            }
         } else {
             $json = "{\"error\": \"No hi ha dades\"}";
         }

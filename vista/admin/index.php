@@ -36,6 +36,7 @@
                 <div class="m-3">
                     <label for="IDcarpeta" class="form-label">ID de la carpeta:</label>
                     <input type="text" class="form-control" id="IDcarpeta">
+                    <small>*Al posar un nou ID, importa el tsv del les classes per carregar les noves dades i es creïn les carpetes de cada curs.</small>
                 </div>
                 <div class="m-3">
                     <button id="Scarpeta" class="btn btn-success mb-2">Seleccionar Carpeta</button>

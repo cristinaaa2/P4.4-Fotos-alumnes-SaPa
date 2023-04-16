@@ -3,7 +3,6 @@
 if (isset($_POST['submit-tsv'])) {
     try {
         include_once './crear_carpetes.php';
-        // include_once './eliminar_fotos.php';
         $target_dir = "../tsv/";
         $target_file = $target_dir . basename($_FILES['arxiu']["name"]);
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -28,14 +27,35 @@ if (isset($_POST['submit-tsv'])) {
 
                 $arrayProcessat = estilitzarArray($data);
 
-
                 $dataBDD = file_get_contents("../model/classes.json");
                 $classes = json_decode($dataBDD, true);
-
+                $existeix = false;
                 if($classes !== null) {
-                    //afegir l'usuari del tsv al json si no existeix a la base de dades
+                    //afegir l'usuari del tsv al json si no existeix a la base de dades i si existeix, actualitzar les dades
                     for ($j = 0; $j < count($arrayProcessat); $j++) {
-                        if (strpos($dataBDD, $arrayProcessat[$j]["id"]) == false) {
+                        $existeix = false;
+                        for ($i = 0; $i < count($classes); $i++) {
+                            if ($classes[$i]["id"] == $arrayProcessat[$j]["id"]) {
+                                if($classes[$i]["curs"] != $arrayProcessat[$j]["curs"]) {
+                                    $classes[$i]["curs"] = $arrayProcessat[$j]["curs"];
+                                    if(isset($arrayProcessat[$j]["foto"])) {
+                                        $classes[$i]["foto"] = "NO";
+                                    }
+                                } else if($classes[$i]["grup"] != $arrayProcessat[$j]["grup"]) {
+                                    $classes[$i]["grup"] = $arrayProcessat[$j]["grup"];
+                                    if(isset($arrayProcessat[$j]["foto"])) {
+                                        $classes[$i]["foto"] = "NO";
+                                    }
+                                } else if($classes[$i]["cicle"] != $arrayProcessat[$j]["cicle"]) {
+                                    $classes[$i]["cicle"] = $arrayProcessat[$j]["cicle"];
+                                    if(isset($arrayProcessat[$j]["foto"])) {
+                                        $classes[$i]["foto"] = "NO";
+                                    }
+                                }
+                                $existeix = true;
+                            }
+                        }
+                        if(!$existeix) {
                             array_push($classes, $arrayProcessat[$j]);
                         }
                     }

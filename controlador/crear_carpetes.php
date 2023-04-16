@@ -16,10 +16,15 @@ if(isset($_POST["id"])) {
                 $config["FOLDER_ID"] = $_POST["id"];
                 $json = json_encode($config);
                 file_put_contents($file, $json);
+                eliminarCarpetaServidor('../fotos/*');
                 if(general()) { 
-                    echo "La carpeta s'ha guardat correctament. Les carpetes s'han creat correctament.";
+                    echo "El ID de la carpeta s'ha guardat correctament. Les carpetes s'han creat correctament.";
+                    eliminarDadesJSON();
+                    // marcarFotoNo();
                 } else {
-                    echo "La carpeta s'ha guardat correctament. ERROR: Hi ha hagut un error al crear les carpetes.";
+                    echo "El ID de la carpeta s'ha guardat correctament. ERROR: Hi ha hagut un error al crear les carpetes.";
+                    eliminarDadesJSON();
+                    // marcarFotoNo();
                 }
             } else {
                 echo "ERROR: La carpeta no existeix o no l'has compartit amb el correu de l'aplicació. (sapafoto@articles-366108.iam.gserviceaccount.com)";
@@ -34,7 +39,32 @@ if(isset($_POST["id"])) {
     } 
 }
 
+/**
+ * Comporova que existeixi la carpeta pare i que hi hagin dades en les calsses i crea les carpetes dels alumnes en el servidor i en el drive.
+ */
 function general() {
+    try {
+        $data = file_get_contents("../model/classes.json");
+        $classes = json_decode($data, true);
+        $folderId = IdCarpetaPare();
+        if($folderId == "") {
+            return false;
+        }
+        if($classes != "") {
+           foreach ($classes as $classe) {
+                crearCarpeta($classe["cicle"] . $classe["curs"] . $classe["grup"]);
+                crearCarpetaDrive($classe["cicle"] . $classe["curs"] . $classe["grup"], $folderId);
+            } 
+        }
+        
+        return true;
+    } catch(Exception $e) {
+        return false;
+    }
+}
+
+
+function generarCarpetesTSV() {
     try {
         $data = file_get_contents("../model/classes.json");
         $classes = json_decode($data, true);
@@ -52,74 +82,18 @@ function general() {
     }
 }
 
-function generarCarpetesTSV() {
-    try {
-        $data = file_get_contents("../model/classes.json");
-        $classes = json_decode($data, true);
-        $folderId = IdCarpetaPare();
-        if($folderId == "") {
-            return false;
-        } 
-        foreach ($classes as $classe) {
-            crearCarpetaTSV($classe["cicle"] . $classe["curs"] . $classe["grup"]);
-            crearCarpetaDriveTSV($classe["cicle"] . $classe["curs"] . $classe["grup"], $folderId);
-        }
-        return true;
-    } catch(Exception $e) {
-        return false;
-    }
-}
-
 
 function crearCarpeta($classe) {
     try {
        if (!file_exists("../fotos/" . $classe)) {
             mkdir("../fotos/" . $classe, 0777);
-        } 
-        // else {
-        //     eliminarCarpetaServidor("../fotos/" . $classe . "/*");
-        // } 
+        }
     } catch(Exception $e) {
         echo "ERROR: Error al crear la carpeta del servidor.";
     }
-}
-
-function crearCarpetaTSV($classe) {
-    try {
-       if (!file_exists("../fotos/" . $classe)) {
-            mkdir("../fotos/" . $classe, 0777);
-        } 
-    } catch(Exception $e) {
-        echo "ERROR: Error al crear la carpeta del servidor.";
-    }
-    
 }
 
 function crearCarpetaDrive($classe, $folderId) { 
-    try {
-        $client = new Google_Client();
-        $client->useApplicationDefaultCredentials();
-        $client->setScopes(['https://www.googleapis.com/auth/drive']);
-        $driveService = new Google\Service\Drive($client);
-
-        $results = $driveService->files->listFiles([
-            'q' => "name='".$classe."'"
-        ]);
-        if (count($results->files) > 0) {
-            $driveService->files->delete($results->files[0]->id);
-        }
-            $fileMetadata = new Google\Service\Drive\DriveFile(array(
-                'name' => $classe,
-                'mimeType' => 'application/vnd.google-apps.folder',
-                'parents' => array($folderId)));
-            $file = $driveService->files->create($fileMetadata, array(
-                'fields' => 'id'));
-    } catch(Exception $e) {
-       echo "ERROR: Error al crear la carpeta del drive.";
-    }
-}
-
-function crearCarpetaDriveTSV($classe, $folderId) { 
     try {
         $client = new Google_Client();
         $client->useApplicationDefaultCredentials();
