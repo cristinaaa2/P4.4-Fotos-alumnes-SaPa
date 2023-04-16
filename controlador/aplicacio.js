@@ -12,7 +12,9 @@ window.onload = function() {
 		});
 	}
 }
-
+/**
+ * Envia una peticio per guardar el ID de la carpeta del Drive.
+ */
 function guardarIDCarpetaDrive() {
 	let id = document.getElementById("IDcarpeta").value;
 
@@ -22,7 +24,8 @@ function guardarIDCarpetaDrive() {
 			type: "POST",
 			data: {id: id},
 			success: function (data) {
-				alert(data)
+				document.getElementById("IDcarpeta").value = "";
+				alert(data);
 			},
 			error: function (xhr, status) {
 				alert("No s'ha pogut guardar l'ID");
@@ -33,6 +36,9 @@ function guardarIDCarpetaDrive() {
 	}
 }
 
+/**
+ * Envia la peticio per eliminar el contingut del servidor.
+ */
 function eliminarContingut() {
 	if(confirm("Estàs segur que vols eliminar tot el cuntingut? (S'eliminaran totes les fotos en el servidor i les dades dels cursos)")) {
 		$.ajax({

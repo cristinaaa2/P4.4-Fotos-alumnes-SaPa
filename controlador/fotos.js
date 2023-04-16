@@ -140,7 +140,9 @@ window.onload = function() {
 onresize = function() {
     initMida();
 }
-
+/**
+ * Calcula la mida de la foto.
+ */
 function initMida() {
     sw = window.innerWidth;
     sh = window.innerHeight;

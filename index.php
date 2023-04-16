@@ -7,7 +7,7 @@ if (!isset($_SESSION['usuari'])) {
     // Claus del client i ruta de redireccionament autoritzada
     $clientID = '460822153535-j7c9h85prrbdqbdb7oeh2h3uat230mge.apps.googleusercontent.com';
     $clientSecret = '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';
-    $redirectUri = extriuRutaLogin();
+    $redirectUri = rutaLogin();
     if($redirectUri == "") {
       echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>No hi ha cap ruta de login configurada. Contacta amb l'administrador.<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
     }
@@ -62,6 +62,9 @@ if (!isset($_SESSION['usuari'])) {
 }
 require_once "vista/index.html";
 
+/**
+ * Registra l'usuari del profe si no esta registrat.
+ */
 function registrarProfe($name, $email) {
   $file = "model/profes.json";
   if(file_exists($file)) {
@@ -75,6 +78,9 @@ function registrarProfe($name, $email) {
   file_put_contents($file, $json);
 }
 
+/**
+ * Comprova si el correu del profe està registrat en el JSON o no.
+ */
 function comprovarCorreuRegistrat($email) {
   $file = "model/profes.json";
   if(file_exists($file)) {
@@ -91,7 +97,9 @@ function comprovarCorreuRegistrat($email) {
   return false;
 }
 
-
+/**
+ * Valida que el correu sigui d'un profe.
+ */
 function esProfe($email) {
   $pattern = "/^\w[^\.]\w@sapalomera\.cat$/";
   // $pattern = "/.@sapalomera.cat$/";
@@ -102,7 +110,10 @@ function esProfe($email) {
   }
 }
 
-function extriuRutaLogin() {
+/**
+ * Extreu la ruta pel login de Google del fitxer config.json.
+ */
+function rutaLogin() {
   $file = "model/config.json";
     if(file_exists($file)) {
         $json = file_get_contents($file);
